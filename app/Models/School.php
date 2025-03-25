@@ -77,6 +77,10 @@ class School extends Model
         "vote_total",
     ];
 
+    protected $casts = [
+        'id' => 'string',
+    ];
+    public $timestamps = true; 
 }
 
 
