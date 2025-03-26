@@ -43,7 +43,7 @@ class SchoolController extends Controller
     {
         $data = $request->validate([
             'establishment_name' => 'required|string',
-            // 'banner_image' => ['nullable', 'url'],
+            'featured_image' => ['nullable', 'url'],
         ]);
         $data["id"] = isset($request->id) ? $request->id : $school->id;
         $data["street"] = isset($request->street) ? $request->street : $school->street;
@@ -51,6 +51,7 @@ class SchoolController extends Controller
         $data["address3"] = isset($request->address3) ? $request->address3 : $school->address3;
         $data["town"] = isset($request->town) ? $request->town : $school->town;
         $data["establishment_type_group"] = isset($request->establishment_type_group) ? $request->establishment_type_group : $school->establishment_type_group;
+        
 
         // if ($request->hasFile('banner_image')) {
         //     if($product->banner_image) {
