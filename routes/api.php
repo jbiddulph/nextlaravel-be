@@ -15,9 +15,10 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     
     Route::apiResource('schools', SchoolController::class);
     Route::apiResource('products', ProductController::class);
+    Route::get('school/photo', [SchoolController::class, 'getPhoto']);
 });
-
-
+Route::apiResource('schools', SchoolController::class);
+Route::get('school/photo', [SchoolController::class, 'getPhoto']);
 // Route::get('/user', function (Request $request) {
 //     return $request->user();
 // })->middleware('auth:sanctum');

@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log; // Import the Log facade
+use Illuminate\Support\Str; // Import Str for UUID validation
 use App\Models\School;
 
 class SchoolController extends Controller
@@ -12,8 +14,8 @@ class SchoolController extends Controller
      */
     public function index()
     {
-        $schools = School::paginate(16);
-
+        $schools = School::paginate(500);
+        
         return response()->json([
             'status' => true,
             'schools' => $schools,
@@ -67,6 +69,29 @@ class SchoolController extends Controller
             'message' => 'School updated successfully',
         ]);        
     }
+
+    /**
+     * Handle the request and return the photo based on the provided id.
+     */
+    public function getPhoto(Request $request)
+    {
+        $school_id = $request->query('id'); // ✅ Get ID from query string
+        Log::info('Received school_id:', ['id' => $school_id]);
+
+        if (!$school_id) {
+            return response()->json(['message' => 'Missing school_id.'], 400);
+        }
+
+        $school = School::where('id', $school_id)->first(); // ✅ Ensure correct column
+
+        if (!$school || !$school->featured_image) {
+            return response()->json(['message' => 'School or photo not found.'], 404);
+        }
+
+        return response()->json(['photo_url' => $school->featured_image]);
+    }
+
+
     /**
      * Remove the specified resource from storage.
      */
