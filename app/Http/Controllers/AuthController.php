@@ -49,13 +49,16 @@ class AuthController extends Controller
     }
 
     // Profile API
-    public function profile() {
+    public function profile()
+    {
         $user = Auth::user();
 
         return response()->json([
             'status' => true,
             'message' => 'User profile',
-            "user" => $user,
+            'role' => $user->role, // Include the user's role in the response
+            'is_admin' => $user->isAdmin(), // Check if the user is an admin
+            'user' => $user,
         ]);
     }
 
