@@ -23,6 +23,27 @@ class SchoolController extends Controller
     }
 
     /**
+     * Display a listing of the resource based on the search query.
+     */
+    public function search(Request $request)
+    {
+        // Map 'query' to 'search' for consistency
+        $filters = $request->only(['query', 'establishment_type_group', 'phase_of_education']);
+        if (isset($filters['query'])) {
+            $filters['search'] = $filters['query'];
+            unset($filters['query']); // Remove 'query' to avoid confusion
+        }
+
+        // Apply the filters using the scopeFilter method
+        $schools = School::filter($filters)->paginate(16);
+
+        return response()->json([
+            'status' => true,
+            'schools' => $schools,
+        ]);
+    }
+
+    /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)

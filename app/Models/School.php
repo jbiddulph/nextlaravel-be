@@ -84,4 +84,23 @@ class School extends Model
         'vote_ratio',
         'vote_total',
     ];
+
+    public function scopeFilter($query, array $filters)
+    {
+        if (!empty($filters['search'])) {
+            $query->where(function ($q) use ($filters) {
+                $q->where('establishment_name', 'like', '%' . $filters['search'] . '%')
+                    ->orWhere('street', 'like', '%' . $filters['search'] . '%')
+                    ->orWhere('town', 'like', '%' . $filters['search'] . '%');
+            });
+        }
+
+        if (!empty($filters['establishment_type_group'])) {
+            $query->where('establishment_type_group', $filters['establishment_type_group']);
+        }
+
+        if (!empty($filters['phase_of_education'])) {
+            $query->where('phase_of_education', $filters['phase_of_education']);
+        }
+    }
 }
